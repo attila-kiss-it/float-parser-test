@@ -21,6 +21,14 @@ public class TestMyDoubleParser {
     testCases.clear();
     // TODO create more test cases to test your implementation
     testCases.put("1".toCharArray(), Double.valueOf(1));
+
+    testCases.put("     ".toCharArray(), Double.valueOf(0));
+
+    testCases.put("asdf".toCharArray(), Double.valueOf(0));
+
+    testCases.put("1.1".toCharArray(), Double.valueOf(1.1));
+
+    testCases.put("1.123".toCharArray(), Double.valueOf(1.123));
   }
 
   @Test
