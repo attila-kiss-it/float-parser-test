@@ -32,4 +32,9 @@ public class TestMyDoubleParser {
     }
   }
 
+  @Test
+  public void myTest() {
+    Assert.assertEquals(12.12, doubleParser.strtod(new char[] { '1', '2', '.', '1', '2' }), 0);
+  }
+
 }
