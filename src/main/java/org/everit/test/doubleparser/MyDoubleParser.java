@@ -7,6 +7,8 @@ public class MyDoubleParser implements DoubleParser {
     private static final int INTEGRAL_FOR_DECPOINT = 1;
     private static final int FRACTIONAL = 2;
     private static final int OPTIONAL_SIGN = 3;
+    private static final int OPTIONAL_EXP = 4;
+    private static final int EXPONENT = 5;
 
     @Override
     public double strtod(final char[] str) {
@@ -18,6 +20,7 @@ public class MyDoubleParser implements DoubleParser {
         double integralPart = 0;
         double fractionPart = 0;
         int fractionDiv = 1;
+        int exponentPart = 0;
 
 
         strProcess: while (pos < str.length) {
@@ -59,16 +62,33 @@ public class MyDoubleParser implements DoubleParser {
                     fractionDiv *= 10;
                     pos++;
                 } else {
+                    state = OPTIONAL_EXP;
+                }
+                break;
+            case OPTIONAL_EXP:
+                if((c != 'e') && (c!= 'E')) {
+                    break strProcess;
+                }
+                pos++;
+                state = EXPONENT;
+                break;
+            case EXPONENT:
+                if(Character.isDigit(c)) {
+                    exponentPart = (exponentPart * 10) + (c - '0');
+                    pos++;
+                } else {
                     break strProcess;
                 }
                 break;
-
             }
 
 
         }
 
         double result = integralPart + (fractionPart / fractionDiv);
+        for(int e = 0; e < exponentPart; e++) {
+            result *= 10;
+        }
         if(minus) {
             result = -result;
         }
